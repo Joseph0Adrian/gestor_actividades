@@ -23,7 +23,7 @@ const store = createStore({
     DELETE_USER(state, userID) {
     	state.users = state.users.filter(user => user.id !== userID);
     },
-    AGREGAR_ACTIVIDAD(state, activdad){
+    AGREGAR_ACTIVIDAD(state, actividad){
     	state.actividades.push(actividad);
     },
     BORRAR_ACTIVIDAD(state, actividadID){
