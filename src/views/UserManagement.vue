@@ -28,7 +28,7 @@
         </button>
         <button
           class="btn btn-primary btn-sm"
-          @click="mostrarModalActividades"
+          @click="mostrarModalActividades(user.id)"
           title="Asignar actividad"
         >
           <i class="fa-solid fa-folder-plus"></i>
@@ -49,7 +49,14 @@
         		:key="actividad.id"
         		class="list-group-item d-flex justify-content-between align-items-center"
       		>
-        		(ID: {{actividad.id}}){{ actividad.nombre_actividad }}
+        		(ID: {{actividad.id}}) {{ actividad.nombre_actividad }}
+            <button
+              class="btn btn-primary btn-sm"
+              title="Asignar actividad"
+              @click="asignarActividadUsuario"
+            >
+              <i class="fa-solid fa-folder-plus"></i>
+            </button>
       		</li>
     	</ul>
   	</slot>
@@ -66,6 +73,7 @@ export default {
   },
   data() {
     return {
+      idUsuarioAsignarActividad:'',
     	actividades: [],
       	showModal: false,
       	/*users: [
@@ -89,7 +97,8 @@ export default {
     },
   },
   methods: {
-    mostrarModalActividades() {
+    mostrarModalActividades(userId) {
+      this.idUsuarioAsignarActividad = userId;
       this.showModal = true;
     },
     async fetchUsers() {
@@ -104,6 +113,7 @@ export default {
           id: Date.now(),
           name: this.newUser,
         };
+        console.log(typeof newUser.id);
         this.$store.dispatch('addUser', newUser);
         this.newUser = '';
       }

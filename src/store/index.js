@@ -4,20 +4,26 @@ const store = createStore({
     return {
       users: [
         {
-          id: 1,
+          id: '1',
           name: 'test',
         },
       ],
       actividades:[
       	{
-      		id: 1,
+      		id:'1',
       		nombre_actividad: 'actividad 1',
       	}
-      ]
+      ],
+      usuario_actividad:[],
     };
   },
   mutations: {
+    ASIGNAR_ACTIVIDAD_USUARIO(state, usuario_actividad){
+      state.usuario_actividad.push(usuario_actividad);
+    },
     ADD_USER(state, user) {
+      console.log('user');
+      console.log(typeof user);
       state.users.push(user);
     },
     DELETE_USER(state, userID) {
@@ -31,6 +37,9 @@ const store = createStore({
     }
   },
   actions: {
+    asignarActividadUsuario({ commit }, usuarioActividad){
+      commit('ASIGNAR_ACTIVIDAD_USUARIO', usuarioActividad);
+    },
     addUser({ commit }, user) {
       commit('ADD_USER', user);
     },
