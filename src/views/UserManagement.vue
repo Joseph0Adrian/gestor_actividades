@@ -27,6 +27,13 @@
           <i class="fas fa-trash"></i>
         </button>
         <button
+          class="btn btn-success btn-sm"
+          @click="mostrarModalActividadesAsignadas"
+          title="Actividades asignadas"
+        >
+          <i class="fa-solid fa-folder-plus"></i>
+        </button>
+        <button
           class="btn btn-primary btn-sm"
           @click="mostrarModalActividades(user.id)"
           title="Asignar actividad"
@@ -53,7 +60,32 @@
             <button
               class="btn btn-primary btn-sm"
               title="Asignar actividad"
-              @click="asignarActividadUsuario"
+              @click="asignarActividadUsuario(actividad.id)"
+            >
+              <i class="fa-solid fa-folder-plus"></i>
+            </button>
+      		</li>
+    	</ul>
+  	</slot>
+  </Modal>
+  <Modal
+    :isVisible="showModalActividadesAsignadasUsuario"
+    title="Actividades asignadas a usuario"
+    @close="showModalActividadesAsignadasUsuario = false"
+  >
+  	<slot>
+  		<!-- Lista de actividades -->
+    	<ul class="list-group">
+      		<li
+        		v-for="actividad in actividadesAsignadasUsuario"
+        		:key="actividad.id"
+        		class="list-group-item d-flex justify-content-between align-items-center"
+      		>
+        		(ID: {{actividad.id}}) {{ actividad.nombre_actividad }}
+            <button
+              class="btn btn-primary btn-sm"
+              title="Asignar actividad"
+              @click="asignarActividadUsuario(actividad.id)"
             >
               <i class="fa-solid fa-folder-plus"></i>
             </button>
@@ -73,9 +105,11 @@ export default {
   },
   data() {
     return {
+      actividadesAsignadasUsuario: [],
+      showModalActividadesAsignadasUsuario: false,
       idUsuarioAsignarActividad:'',
     	actividades: [],
-      	showModal: false,
+      showModal: false,
       	/*users: [
         	{
           	id: 1,
@@ -90,6 +124,7 @@ export default {
   },
   mounted() {
   	this.actividades = this.$store.getters.todasActividades;
+    this.actividadesAsignadasUsuario = this.$store.getters.todasUsuariosActividades;
   },
   computed: {
     users() {
@@ -97,6 +132,14 @@ export default {
     },
   },
   methods: {
+    asignarActividadUsuario(actividadId){
+        let obejtoAsignarActividadUsuario = {
+          id: Date.now(),
+          idUsuario: this.idUsuarioAsignarActividad,
+          idActiviad: actividadId
+        };
+        this.$store.dispatch('asignarActividadUsuario', obejtoAsignarActividadUsuario);
+    },
     mostrarModalActividades(userId) {
       this.idUsuarioAsignarActividad = userId;
       this.showModal = true;
@@ -106,8 +149,6 @@ export default {
       //this.users = response.data;
     },
     addUser() {
-      console.log('addUser');
-      console.log(this.newUser);
       if (this.newUser.trim()) {
         let newUser = {
           id: Date.now(),

@@ -59,6 +59,9 @@ const store = createStore({
     },
     todasActividades(state){
     	return state.actividades;
+    },
+    todasUsuariosActividades(){
+      return state.usuario_actividad;
     }
   },
 });
