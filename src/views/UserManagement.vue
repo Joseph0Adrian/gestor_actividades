@@ -81,7 +81,7 @@
         		:key="actividad.id"
         		class="list-group-item d-flex justify-content-between align-items-center"
       		>
-        		(ID: {{actividad.id}}) {{ actividad.nombre_actividad }}
+        		(ID: {{actividad.id}}) ID usuario: {{ actividad.idUsuario }} ID actividad: {{actividad.idActiviad}}
             <button
               class="btn btn-primary btn-sm"
               title="Asignar actividad"
@@ -97,7 +97,7 @@
 
 <script>
 import Modal from './../components/Modal.vue';
-import axios from 'axios';
+// import axios from 'axios';
 
 export default {
   components: {
@@ -132,6 +132,9 @@ export default {
     },
   },
   methods: {
+    mostrarModalActividadesAsignadas() {
+      this.showModalActividadesAsignadasUsuario = true;
+    },
     asignarActividadUsuario(actividadId){
         let obejtoAsignarActividadUsuario = {
           id: Date.now(),
